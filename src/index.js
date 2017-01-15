@@ -52,7 +52,7 @@ module.exports = function createPluginService(Context) {
             })
         } else {
 
-            name = lowerCase(name)
+            name = lowerCase(processors[name] ? name : processors['process' + name] ? 'process' + name : name)
 
             if (!isFn(processor)) return
 
