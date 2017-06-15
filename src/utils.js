@@ -54,23 +54,6 @@ export const each = (target, fn) => {
 
 
 
-export const reduce = (target, fn, init) => {
-    if (!isFn(fn)) return
-    if (isArr(target)) return target.reduce(fn, init)
-    else {
-        let result = init
-        each(target, (value, key) => {
-            result = fn(result, value, key)
-        })
-        return result
-    }
-}
-
-export const compose = (...fns) => {
-    return (payload, ...args) => reduce(fns, (buf, fn) => {
-        return getFn(fn)(buf, ...args)
-    }, payload)
-}
 
 
 export const lowerCase = (str) => {
