@@ -31,6 +31,10 @@ export function createPluginService(Context) {
         }
     }
 
+    function getProcessName(name){
+        return owerCase(name).replace(/process/i, '')
+    }
+
     function process(name, processor) {
         if (isObj(name)) {
             each(name, (processor, key) => {
@@ -38,7 +42,7 @@ export function createPluginService(Context) {
             })
         } else {
 
-            name = lowerCase(name).replace(/process/i, '')
+            name = getProcessName(name)
 
             if (!isFn(processor)) return
 
@@ -54,6 +58,7 @@ export function createPluginService(Context) {
     function post(name, payload, defaults) {
         if (isStr(name)) {
             if (name.length) {
+                 name = getProcessName(name)
                 if (isFn(processors[name])) {
                     return processors[name](payload)
                 }
