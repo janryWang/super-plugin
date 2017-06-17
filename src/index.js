@@ -32,7 +32,7 @@ export function createPluginService(Context) {
     }
 
     function getProcessName(name){
-        return owerCase(name).replace(/process/i, '')
+        return lowerCase(name).replace(/process/i, '')
     }
 
     function process(name, processor) {
