@@ -30,9 +30,9 @@ export function createPluginService(Context) {
         return (payload) => {
             const ctx = new Context(payload)
             const previous = getFn(fn, payload)
-            if(isFn(ctx._beforeProcess)) ctx._beforeProcess(payload)
+            if(isFn(ctx.beforeEach)) ctx.beforeEach(payload)
             const result = processor.call(ctx, payload, previous)
-            if(isFn(ctx._afterProcess)) ctx._afterProcess(result)
+            if(isFn(ctx.afterEach)) ctx.afterEach(result)
             return result
         }
     }
