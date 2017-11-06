@@ -23,16 +23,24 @@ import {
 
 export function createPluginService(Context) {
     const processors = obj()
+    const cacheName = obj()
     Context = Context || noop()
 
     function inject(name, processor, fn) {
         return (payload) => {
-            return processor.call(new Context(payload), payload, getFn(fn, payload))
+            const ctx = new Context(payload)
+            const previous = getFn(fn, payload)
+            if(isFn(ctx._beforeProcess)) ctx._beforeProcess(payload)
+            const result = processor.call(ctx, payload, previous)
+            if(isFn(ctx._afterProcess)) ctx._afterProcess(result)
+            return result
         }
     }
 
     function getProcessName(name){
-        return lowerCase(name).replace(/process/i, '')
+        if(cacheName[name]) return cacheName[name]
+        cacheName[name] = lowerCase(name).replace(/process/i, '')
+        return cacheName[name]
     }
 
     function process(name, processor) {
